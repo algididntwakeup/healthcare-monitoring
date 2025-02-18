@@ -31,6 +31,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:monitor')
             ->everyFiveMinutes()
             ->whenNotRunning();
+
+            $schedule->job(new ProcessPerformanceMetrics)->daily();
+        $schedule->command('reports:generate-daily')->dailyAt('23:59');
     }
 
     protected function commands()
