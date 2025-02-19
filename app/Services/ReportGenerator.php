@@ -1,3 +1,10 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\PerformanceIndicator;
+use Carbon\Carbon;
+
 // app/Services/ReportGenerator.php
 class ReportGenerator
 {

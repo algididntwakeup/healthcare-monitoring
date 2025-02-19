@@ -26,10 +26,16 @@ class ConsultationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(StoreConsultationRequest $request)
+{
+    $validated = $request->validated();
+    $consultation = Consultation::create($validated);
+    
+    ProcessPerformanceMetrics::dispatch();
+    
+    return redirect()->route('consultations.index')
+        ->with('success', 'Consultation recorded successfully');
+}
 
     /**
      * Display the specified resource.
