@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Consultation;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreConsultationRequest;
+use App\Jobs\ProcessPerformanceMetrics;
 
 class ConsultationController extends Controller
 {
@@ -27,15 +29,16 @@ class ConsultationController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreConsultationRequest $request)
-{
-    $validated = $request->validated();
-    $consultation = Consultation::create($validated);
-    
-    ProcessPerformanceMetrics::dispatch();
-    
-    return redirect()->route('consultations.index')
-        ->with('success', 'Consultation recorded successfully');
-}
+    {
+        $validated = $request->validated();
+        $consultation = Consultation::create($validated);
+
+        // Dispatch job untuk update performance metrics
+        ProcessPerformanceMetrics::dispatch();
+
+        return redirect()->route('consultations.index')
+            ->with('success', 'Konsultasi berhasil ditambahkan');
+    }
 
     /**
      * Display the specified resource.

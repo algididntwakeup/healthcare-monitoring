@@ -9,6 +9,7 @@ return [
 
     // @see https://docs.sentry.io/product/sentry-basics/dsn-explainer/
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
+    'traces_sample_rate' => env('SENTRY_TRACES_SAMPLE_RATE', 0.2),
 
     // @see https://spotlightjs.com/
     // 'spotlight' => env('SENTRY_SPOTLIGHT', false),

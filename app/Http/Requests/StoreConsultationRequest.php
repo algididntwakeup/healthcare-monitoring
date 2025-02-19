@@ -17,3 +17,26 @@ class StoreConsultationRequest extends FormRequest
         ];
     }
 }
+
+// app/Http/Controllers/ConsultationController.php
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreConsultationRequest;
+use App\Models\Consultation;
+use App\Jobs\ProcessPerformanceMetrics;
+use Illuminate\Http\RedirectResponse;
+
+class ConsultationController extends Controller
+{
+    public function store(StoreConsultationRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $consultation = Consultation::create($validated);
+
+        // Dispatch the job to process performance metrics
+        ProcessPerformanceMetrics::dispatch();
+
+        return redirect()->route('consultations.index')
+            ->with('success', 'Consultation recorded successfully');
+    }
+}
